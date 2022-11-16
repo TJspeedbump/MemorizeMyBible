@@ -1,0 +1,10 @@
+{% extends "base.html"%}{% block title %}Home{% endblock %}
+{% block content %}
+    <p>Hello World!</p>
+    {% if user %}
+    <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Verse" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    {% endif %}
+    </form>
+{% endblock %}
