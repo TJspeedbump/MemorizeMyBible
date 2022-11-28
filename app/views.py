@@ -1,6 +1,5 @@
 from flask import request, Blueprint, render_template
-from . import models, db, oauth
-
+from . import models, oauth, db
 
 views = Blueprint("views", __name__)
 
