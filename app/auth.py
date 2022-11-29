@@ -27,19 +27,25 @@ def login():
 @auth.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
+        fname = request.form.get("Fname")
+        lname = request.form.get("Lname")
         email = request.form.get("email")
         password = request.form.get("password")
-        if email and password:
-            user = db.session.query(models.Users).filter(models.Users.email==email).first()
-            if not user:
-                new_user = models.User(email=email, password=password)
-                db.session.add(new_user)
-                db.session.commit()
-                return render_template("home.html")
-            else:
-                flash("Please enter a valid email and password", category="error")
+        repassword = request.form.get("repassword")
+        if password != repassword:
+            flash("Your Passwords Did not Match, Please Re-Enter", category="error")
         else:
-            flash("Please enter your email and password", category="error")
+            if email and password:
+                user = db.session.query(models.Users).filter(models.Users.email==email).first()
+                if not user:
+                    new_user = models.User(fname=fname, lname=lname, email=email, password=password)
+                    db.session.add(new_user)
+                    db.session.commit()
+                    return render_template("home.html")
+                else:
+                    flash("Please enter a valid email and password", category="error")
+            else:
+                flash("Please enter your email and password", category="error")
     return render_template("signup.html")
 
 

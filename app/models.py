@@ -3,6 +3,8 @@ from sqlalchemy.sql import func
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    fname = db.Column(db.String)
+    lname = db.Column(db.String)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
