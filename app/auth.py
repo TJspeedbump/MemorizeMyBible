@@ -1,5 +1,5 @@
 from flask import request, Blueprint, flash, render_template, make_response
-from . import oauth, schemas, models, db
+from . import oauth, models, db
 
 auth = Blueprint("auth", __name__)
 
