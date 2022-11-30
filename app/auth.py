@@ -27,8 +27,8 @@ def login():
 @auth.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        fname = request.form.get("Fname")
-        lname = request.form.get("Lname")
+        fname = request.form.get("fname")
+        lname = request.form.get("lname")
         email = request.form.get("email")
         password = request.form.get("password")
         repassword = request.form.get("repassword")
@@ -38,7 +38,7 @@ def signup():
             if fname and lname and email and password:
                 user = db.session.query(models.Users).filter(models.Users.email==email).first()
                 if not user:
-                    new_user = models.User(fname=fname, lname=lname, email=email, password=password)
+                    new_user = models.Users(fname=fname, lname=lname, email=email, password=password)
                     db.session.add(new_user)
                     db.session.commit()
                     return render_template("home.html")

@@ -24,7 +24,17 @@ class Users(db.Model):
         self.password = password
 
 class Verses(db.Model):
-    # __bind_key__ = "NLT"
+    __bind_key__ = "NLT"
+    id = db.Column(db.Integer, primary_key=True)
+    verse = db.Column(db.String)
+    content = db.Column(db.String)
+
+    def __init__(self, verse, content):
+        self.verse = verse
+        self.content = content
+
+class Verses(db.Model):
+    __bind_key__ = "NIV"
     id = db.Column(db.Integer, primary_key=True)
     verse = db.Column(db.String)
     content = db.Column(db.String)
