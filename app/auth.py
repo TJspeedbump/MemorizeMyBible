@@ -35,7 +35,7 @@ def signup():
         if password != repassword:
             flash("Your Passwords Did not Match, Please Re-Enter", category="error")
         else:
-            if email and password:
+            if fname and lname and email and password:
                 user = db.session.query(models.Users).filter(models.Users.email==email).first()
                 if not user:
                     new_user = models.User(fname=fname, lname=lname, email=email, password=password)
@@ -45,7 +45,7 @@ def signup():
                 else:
                     flash("Please enter a valid email and password", category="error")
             else:
-                flash("Please enter your email and password", category="error")
+                flash("Please enter your Infromation", category="error")
     return render_template("signup.html")
 
 

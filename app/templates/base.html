@@ -8,25 +8,42 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-dark">
-            <div class="container-fluid">
-              <a class="navbar-brand; text-white h4">Memorize My Bibe</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                  {% if user %}
-                  <a class="nav-link active; text-white h4" aria-current="page" href="/">Search</a>
-                  <a class="nav-link active; text-white h4" href="/memorized">Memorized</a>
-                  <a class="nav-link active; text-white h4" href="/login">Logout</a>
-                  {% else %}
-                  <a class="nav-link active; text-white h4" href="/login">Login</a>
-                  <a class="nav-link active; text-white h4" href="/signup">Sign Up</a>
-                  {% endif %}
-                </div>
+          <div class="container-fluid">
+            <a class="navbar-brand; text-white h4" href="/">Memorize My Bibe</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                {% if user %}
+                <a class="nav-link active; text-white h4" aria-current="page" href="/">Search</a>
+                <a class="nav-link active; text-white h4" href="/memorized">Memorized</a>
+                <a class="nav-link active; text-white h4" href="/login">Logout</a>
+                {% else %}
+                <a class="nav-link active; text-white h4" href="/login">Login</a>
+                <a class="nav-link active; text-white h4" href="/signup">Sign Up</a>
+                {% endif %}
               </div>
             </div>
-          </nav>
-        {% block content %}{% endblock %}
+          </div>
+        </nav>
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %} {% for category, message in messages %} {% if category ==
+          'error' %}
+          <div class="alert alert-danger alter-dismissable fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" aria-label="Close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% else %}
+          <div class="alert alert-success alter-dismissable fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" aria-label="Close">
+              <!-- <span aria-hidden="true">&times;</span> -->
+            </button>
+          </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
+        <div class="container">{% block content %} {% endblock %}</div>
     </body>    
 </html>
