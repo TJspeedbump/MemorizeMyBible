@@ -14,18 +14,24 @@ def create_access_token(user):
 
 def verify_access_token():
     try:
-        token = request.cookie.get("token")
+        print("Cool")
+        token = request.cookies.get("token")
+        print("True")
         payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM"))
-        user_id = payload.get("user")
-        user = db.session.query(models.Users).filter(models.User.id==user_id).first()
+        print("Problem")
+        user = payload.get("user")
+        # user = db.session.query(models.Users).filter(models.Users==user).first()
         if user:
             return user
         return None
     except:
+        print("Bad")
         return None
 
 def hash_password(password):
-    sha256_crypt.hash(password)
+    hash = sha256_crypt.hash(password)
+    return hash
 
 def verify_hash_password(password, user_password):
-    sha256_crypt.verify(password, user_password)
+    check = sha256_crypt.verify(password, user_password)
+    return check
