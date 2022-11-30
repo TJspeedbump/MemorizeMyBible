@@ -17,7 +17,7 @@ def verify_access_token():
         print("Cool")
         token = request.cookies.get("token")
         print("True")
-        payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM"))
+        payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM"))
         print("Problem")
         user = payload.get("user")
         # user = db.session.query(models.Users).filter(models.Users==user).first()
