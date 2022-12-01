@@ -10,7 +10,7 @@ def home():
         if user:
             verse = request.form.get("verse")
             if verse:
-                verse_query = db.session.query(models.Verses).filter(models.Verses.contains(verse)).all()
+                verse_query = db.session.query(models.Verses).filter(models.Verses.verse.contains(verse)).all()
                 return redirect("/search"), verse_query
             else:
                 flash("Please Enter A Verse", category="error")
@@ -24,7 +24,7 @@ def results():
     if request.method == "POST":
         verse = request.method.get("verse")
         return render_template("verse.html", verse=verse, user=user)
-    return render_template("results.html", user=user)
+    return render_template("results.html", user=user, )
 
 
 @views.route("/memorized", methods=["GET", "POST"])
