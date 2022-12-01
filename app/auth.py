@@ -13,8 +13,7 @@ def login():
             if user:
                 if oauth.verify_hash_password(password, user.password):
                     token = oauth.create_access_token(user.id)
-                    res = make_response(redirect("/"))
-                    res.set_cookie("token", value=token, expires=None, httponly=True)
+                    res = oauth.create_cookie("token", token, None)
                     return res
                 else:
                     flash("Please enter a valid email and password", category="error")
@@ -42,7 +41,7 @@ def signup():
                     new_user = models.Users(fname=fname, lname=lname, email=email, password=password)
                     db.session.add(new_user)
                     db.session.commit()
-                    return render_template("home.html")
+                    return redirect("/")
                 else:
                     flash("This Email is Already Taken, Please Use another Email or Login", category="error")
             else:
@@ -50,6 +49,7 @@ def signup():
     return render_template("signup.html")
 
 
-@auth.route("/logout", methods=["POST"])
+@auth.route("/logout", methods=["GET"])
 def logout():
-    return render_template("login.html")
+    cookie = oauth.create_cookie("token", "", 0)
+    return cookie

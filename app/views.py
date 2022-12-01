@@ -1,4 +1,4 @@
-from flask import request, Blueprint, render_template, flash
+from flask import request, Blueprint, render_template, flash, redirect, make_response
 from . import models, oauth, db
 
 views = Blueprint("views", __name__)
@@ -11,7 +11,7 @@ def home():
             verse = request.form.get("verse")
             if verse:
                 verse_query = db.session.query(models.Verses).filter(models.Verses.contains(verse)).all()
-                return render_template("results.html", results=verse_query, user=user)
+                return redirect("/search"), verse_query
             else:
                 flash("Please Enter A Verse", category="error")
         else:
@@ -32,5 +32,6 @@ def get_memorized():
     user = oauth.verify_access_token()
     if request.method == "POST":
         verse = request.method.get("verse")
-        return render_template("verse.html", verse=verse)
+        redirect("/search", verse=verse)
+        return 
     return render_template("memorized.html", user=user)

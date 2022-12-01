@@ -1,7 +1,7 @@
-from flask import request
+from flask import request, redirect
 from passlib.hash import sha256_crypt
 import jwt
-import datetime
+from datetime import timedelta, datetime
 from dotenv import load_dotenv
 import os
 from . import models, db
@@ -9,23 +9,19 @@ from . import models, db
 load_dotenv()
 
 def create_access_token(user):
-    token = jwt.encode({"user": user, "exp": datetime.datetime.utcnow()+datetime.timedelta(int(os.getenv("Token_Access_Minutes")))}, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM"))
+    token = jwt.encode({"user": user, "exp": datetime.utcnow() + timedelta(minutes=int(os.getenv("Token_Access_Minutes")))}, os.getenv("SECRET_KEY"), algorithm=os.getenv("ALGORITHM"))
     return token
 
 def verify_access_token():
     try:
-        print("Cool")
         token = request.cookies.get("token")
-        print("True")
         payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM"))
-        print("Problem")
         user = payload.get("user")
-        # user = db.session.query(models.Users).filter(models.Users==user).first()
+        user = db.session.query(models.Users).filter(models.Users.id==user).first()
         if user:
             return user
         return None
     except:
-        print("Bad")
         return None
 
 def hash_password(password):
@@ -35,3 +31,8 @@ def hash_password(password):
 def verify_hash_password(password, user_password):
     check = sha256_crypt.verify(password, user_password)
     return check
+
+def create_cookie(name, value, age):
+    cookie = redirect("/")
+    cookie.set_cookie(name, value=value, expires=age, httponly=True)
+    return cookie

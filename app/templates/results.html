@@ -1,6 +1,10 @@
 {% extends "base.html" %}{% block title %}Results{% endblock %}
 {% block content %}
-    <P>
-        These are the verses that we found
-    </P>
+    {%for verses in verse_query%}
+    <li class="list-group-item">
+        {{ verse.content }}
+        <button type="button" class="close" >
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </li>
 {% endblock %}
