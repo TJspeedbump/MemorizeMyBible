@@ -24,7 +24,7 @@ def results():
     user = oauth.verify_access_token()
     verse = request.headers.get("verse")
     print(str(verse) + "cool")
-    # verse_query = db.session.query(models.NLT_Verses).filter(models.NLT_Verses.verse.contains(verse)).all()
+    verse_query = db.session.query(models.NLT_Verses).filter(models.NLT_Verses.verse.contains(verse)).all()
     if request.method == "POST":
         verse = request.method.get("verse")
         return render_template("verse.html", verse=verse, user=user)
