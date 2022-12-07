@@ -1,4 +1,4 @@
-from flask import request, Blueprint, render_template, flash, redirect, make_response
+from flask import request, Blueprint, render_template, flash, redirect, make_response, Response
 from . import models, oauth, db
 
 views = Blueprint("views", __name__)
@@ -10,8 +10,9 @@ def home():
         if user:
             verse = request.form.get("verse")
             if verse:
-                verse_query = db.session.query(models.Verses).filter(models.Verses.verse.contains(verse)).all()
-                return redirect("/search"), verse_query
+                res = make_response(redirect("/search"))
+                res.headers["verse"] = verse
+                return res
             else:
                 flash("Please Enter A Verse", category="error")
         else:
@@ -21,10 +22,14 @@ def home():
 @views.route("/search", methods=["GET", "POST"])
 def results():
     user = oauth.verify_access_token()
+    verse = request.headers.get("verse")
+    print(str(verse) + "cool")
+    # verse_query = db.session.query(models.NLT_Verses).filter(models.NLT_Verses.verse.contains(verse)).all()
     if request.method == "POST":
         verse = request.method.get("verse")
         return render_template("verse.html", verse=verse, user=user)
-    return render_template("results.html", user=user, )
+    print("cook")
+    return render_template("results.html", user=user, verse_query=verse_query)
 
 
 @views.route("/memorized", methods=["GET", "POST"])
