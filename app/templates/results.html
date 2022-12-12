@@ -1,11 +1,12 @@
 {% extends "base.html" %}{% block title %}Results{% endblock %}
 {% block content %}
-    <!-- {%for verse in verse_query%} -->
-    <li class="list-group-item">
-        <!-- {{ verse_query.content }} -->
+    {%for verse in verse_query%}
+        <a href="/verse-breakdown">click Here</a>
+    <!-- <li class="list-group-item">
+        {{ verse_query.content }}
         <button type="button" class="close" >
         <span aria-hidden="true">&times;</span>
         </button>
-    </li>
-    <!-- {% endfor %} -->
+    </li> -->
+    {% endfor %}
 {% endblock %}
