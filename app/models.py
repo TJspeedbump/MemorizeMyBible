@@ -6,15 +6,13 @@ class Users(db.Model):
     fname = db.Column(db.String)
     lname = db.Column(db.String)
     email = db.Column(db.String, unique=True)
-    password = db.Column(db.String) 
-    memorized = db.relationship("Memorized")
+    password = db.Column(db.String)
 
     def __init__(self, fname, lname, email, password, memorized):
         self.fname = fname
         self.lname = lname
         self.email = email
         self.password = password
-        self.memorized = memorized
 
 class Memorized(db.Model):
     id = db.Column(db.Integer, primary_key=True)

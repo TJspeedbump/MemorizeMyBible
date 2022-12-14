@@ -1,12 +1,13 @@
 {% extends "base.html" %}{% block title %}Memorized{% endblock %}
 {% block content %}
-    </br>
     <form method="POST">
-        {% for verse in user.memorized %}
+        {% for verse in verses %}
         <li class="list-group-item">
-            {{ verse }}
-            <button type="submit" onclick="">
-            <span aria-hidden="true">&times;</span>
+            <button type="submit" name="verse" value="{{ verse }}" style="margin: 10px;">
+                <h4  style="top:50%; margin: 0;">
+                <img src="{{url_for('static', filename='openbiblepng.png')}}" style="width:50px;height:50px;">
+                {{verse}}
+                </h4>
             </button>
         </li>
         {% endfor %}

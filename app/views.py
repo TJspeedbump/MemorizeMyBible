@@ -1,5 +1,6 @@
 from flask import request, Blueprint, render_template, flash, redirect, make_response, Response, session
 from . import models, oauth, db
+from sqlalchemy import *
 
 views = Blueprint("views", __name__)
 
@@ -30,9 +31,9 @@ def search():
     if not verse_query:
         flash("Sorry, We Could Not Find Any Verses With That Naming", category="error")
     if request.method == "POST":
-        verse = request.method.get("verse")
+        verse = request.form.get("verse")
         session["verse"] = verse
-        return render_template("verse.html", verse=verse, user=user)
+        return render_template("verse_breakdown.html", verse=verse, user=user)
     return render_template("results.html", user=user, verse_query=verse_query)
 
 
@@ -50,8 +51,17 @@ def get_memorized():
     user = oauth.verify_access_token()
     if not user:
         return render_template("no_user.html")
+    list = []
+    verses = db.session.query(models.Memorized.verse_id).filter(models.Memorized.user_id==user.id).all()
+    for verse in verses:
+        num = str(verse)
+        for i in num:
+            if i.isdigit():
+                num = i
+                break
+        list += db.session.query(models.Verses.verse).filter(models.Verses.id==num).first()
     if request.method == "POST":
-        verse = request.method.get("verse")
-        redirect("/search", verse=verse)
-        return 
-    return render_template("memorized.html", user=user)
+        verse = request.form.get("verse")
+        session["verse"] = verse
+        return redirect("/verse-breakdown")
+    return render_template("memorized.html", user=user, verses=list)

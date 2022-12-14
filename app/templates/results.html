@@ -2,10 +2,12 @@
 {% block content %}
     <form method="POST">
         {%for verse in verse_query%}
+            <br/>
             <li class="list-group-item">
-                {{ verse.verse }}
-                <button type="submit" onclick="">
-                <span><img src="{{url_for('static', filename='openbiblepng.png')}}" style="width:50px;height:50px;"></span>
+                <button type="submit" name="verse" value="{{ verse.verse }}">
+                    <h4  style="top:50%; margin: 0;">{{verse.verse}}
+                    <img src="{{url_for('static', filename='openbiblepng.png')}}" style="width:50px;height:50px;">
+                    </h4>
                 </button>
             </li>
         {% endfor %}
