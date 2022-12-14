@@ -1,8 +1,24 @@
 from . import db
 from sqlalchemy.sql import func
 
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fname = db.Column(db.String)
+    lname = db.Column(db.String)
+    email = db.Column(db.String, unique=True)
+    password = db.Column(db.String) 
+    memorized = db.relationship("Memorized")
+
+    def __init__(self, fname, lname, email, password, memorized):
+        self.fname = fname
+        self.lname = lname
+        self.email = email
+        self.password = password
+        self.memorized = memorized
+
 class Memorized(db.Model):
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     verse_id = db.Column(db.Integer, db.ForeignKey("verses.id"))
     time_memorized = db.Column(db.DateTime(timezone=True), default=func.now())
 
@@ -11,35 +27,13 @@ class Memorized(db.Model):
         self.user_id = user_id
         self.time_memorized = time_memorized
 
-class Users(db.Model):
+class Verses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fname = db.Column(db.String)
-    lname = db.Column(db.String)
-    email = db.Column(db.String, unique=True)
-    password = db.Column(db.String)
-
-    def __init__(self, fname, lname, email, password):
-        self.fname = fname
-        self.lname = lname
-        self.email = email
-        self.password = password
-
-class NLT_Verses(db.Model):
-    __bind_key__ = "NLT"
-    id = db.Column(db.Integer, primary_key=True)
+    version = db.Column(db.String)
     verse = db.Column(db.String)
     content = db.Column(db.String)
 
-    def __init__(self, verse, content):
+    def __init__(self, verse, content, version):
         self.verse = verse
         self.content = content
-
-class NIV_Verses(db.Model):
-    __bind_key__ = "NIV"
-    id = db.Column(db.Integer, primary_key=True)
-    verse = db.Column(db.String)
-    content = db.Column(db.String)
-
-    def __init__(self, verse, content):
-        self.verse = verse
-        self.content = content
+        self.version = version
