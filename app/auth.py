@@ -14,7 +14,7 @@ def login():
                 if oauth.verify_hash_password(password, user.password):
                     token = oauth.create_access_token(user.id)
                     res = oauth.create_cookie("token", token, None)
-                    return res
+                    return res, flash("Successfully Logged In", category="success")
                 else:
                     flash("Please enter a valid email and password", category="error")
             else:
@@ -41,7 +41,7 @@ def signup():
                     new_user = models.Users(fname=fname, lname=lname, email=email, password=password)
                     db.session.add(new_user)
                     db.session.commit()
-                    return redirect("/")
+                    return redirect("/"), flash("Successfuly Created An Account", category="success")
                 else:
                     flash("This Email is Already Taken, Please Use another Email or Login", category="error")
             else:
