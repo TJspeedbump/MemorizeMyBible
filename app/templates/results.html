@@ -1,17 +1,27 @@
 {% extends "base.html" %}{% block title %}Results{% endblock %}
 {% block content %}
     <script>
-        function Change_Button_Color() {
-            const element = document.getElementById("1");
-            element.style.backgroundColor = "red";
+        function Change_Button_Color(id) {
+            const element = document.getElementById(id);
+            const element1 = document.getElementById("1");
+            const element2 = document.getElementById("2");
+            const element3 = document.getElementById("3");
+            if (element.style.backgroundColor == "white"){
+                element1.style.backgroundColor = "white";
+                element2.style.backgroundColor = "white";
+                element3.style.backgroundColor = "white";
+                element.style.backgroundColor = "grey";
+            } else if (element.style.backgroundColor != "grey"){
+                element.style.backgroundColor = "white";
+            }
         }
     </script>
-    <form style="margin: 10px;">
+    <form method="POST" style="margin: 10px;">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li class="page-item"><button class="page-link" name="verson" id="1" value="NLT" onclick="Change_Button_Color()">NLT</button></li>
-              <li class="page-item"><button class="page-link" name="verson" id="2" value="NIV">NIV</button></li>
-              <li class="page-item"><button class="page-link" name="verson" id="3" value="NKJV">NKJV</button></li>
+              <li class="page-item"><input style="color: black; background-color: grey;" type="button" class="page-link" name="verson" id="1" value="NLT" onclick="Change_Button_Color(id)">NLT</li>
+              <li class="page-item"><input style="color: black;" type="button" class="page-link" name="verson" id="2" value="NIV" onclick="Change_Button_Color(id)">NIV</input></li>
+              <li class="page-item"><input style="color: black;" type="button" class="page-link" name="verson" id="3" value="NKJV" onclick="Change_Button_Color(id)">NKJV</input></li>
             </ul>
           </nav>
         {%for verse in verse_query%}
