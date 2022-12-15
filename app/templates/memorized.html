@@ -3,7 +3,7 @@
     <form method="POST">
         {% for verse in verses %}
         <li class="list-group-item">
-            <button type="submit" name="verse" value="{{ verse }}" style="margin: 10px;">
+            <button type="submit" name="verse" value="{{ verse }}" style="margin: 10px; border-radius: 10px">
                 <h4  style="top:50%; margin: 0;">
                 <img src="{{url_for('static', filename='openbiblepng.png')}}" style="width:50px;height:50px;">
                 {{verse}}

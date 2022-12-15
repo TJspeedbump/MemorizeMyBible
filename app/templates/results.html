@@ -1,10 +1,23 @@
 {% extends "base.html" %}{% block title %}Results{% endblock %}
 {% block content %}
-    <form method="POST">
+    <script>
+        function Change_Button_Color() {
+            const element = document.getElementById("1");
+            element.style.backgroundColor = "red";
+        }
+    </script>
+    <form style="margin: 10px;">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><button class="page-link" name="verson" id="1" value="NLT" onclick="Change_Button_Color()">NLT</button></li>
+              <li class="page-item"><button class="page-link" name="verson" id="2" value="NIV">NIV</button></li>
+              <li class="page-item"><button class="page-link" name="verson" id="3" value="NKJV">NKJV</button></li>
+            </ul>
+          </nav>
         {%for verse in verse_query%}
             <br/>
             <li class="list-group-item">
-                <button type="submit" name="verse" value="{{ verse.verse }}">
+                <button type="submit" name="verse" value="{{ verse.verse }}" style="border-radius: 10px">
                     <h4  style="top:50%; margin: 0;">{{verse.verse}}
                     <img src="{{url_for('static', filename='openbiblepng.png')}}" style="width:50px;height:50px;">
                     </h4>

@@ -30,19 +30,23 @@
         {% with messages = get_flashed_messages(with_categories=true) %} {% if
           messages %} {% for category, message in messages %} {% if category ==
           'error' %}
-          <div class="alert alert-danger alter-dismissable fade show" role="alert">
-            {{ message }}
-            <button type="button" class="close" aria-label="Close" data-dismiss="alert">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {% else %}
-          <div class="alert alert-success alter-dismissable fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" aria-label="Close">
-              <!-- <span aria-hidden="true">&times;</span> -->
-            </button>
-          </div>
+          <form method="GET">
+            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+              {{ message }}
+              <button type="submit" data-dismiss="alert" style="background-color: transparent; border: none; padding: 0px;">
+                <h4>&times;</h4>
+              </button>
+            </div>
+          </form>
+        {% else %}
+          <form method="GET">
+            <div class="alert alert-success alter-dismissable fade show" role="alert">
+              {{ message }}
+              <button type="submit" class="close" aria-label="Close" data-dismiss="alert" style="background-color: transparent; border: none;">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </form>
         {% endif %} {% endfor %} {% endif %} {% endwith %}
         {% block content %} {% endblock %}
     </body>    

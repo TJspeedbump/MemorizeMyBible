@@ -36,3 +36,10 @@ def create_cookie(name, value, age):
     cookie = redirect("/")
     cookie.set_cookie(name, value=value, expires=age, httponly=True)
     return cookie
+
+def convert_sql(string):
+    strverse = ""
+    for i in range(len(string)):
+        if not i == 0 and not i == (len(string)-2) and not i == (len(string)-1):
+            strverse += string[i]
+    return strverse

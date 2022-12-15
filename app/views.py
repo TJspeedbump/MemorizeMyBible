@@ -32,8 +32,10 @@ def search():
         flash("Sorry, We Could Not Find Any Verses With That Naming", category="error")
     if request.method == "POST":
         verse = request.form.get("verse")
+        verson = request.form.get("verson")
+        print(verson)
         session["verse"] = verse
-        return render_template("verse_breakdown.html", verse=verse, user=user)
+        return redirect("/verse-breakdown")
     return render_template("results.html", user=user, verse_query=verse_query)
 
 
@@ -43,7 +45,23 @@ def verse_breakdown():
     if not user:
         return render_template("no_user.html")
     verse = session.get("verse")
-    return render_template("verse_breakdown.html", user=user, verse=verse)
+    content = db.session.query(models.Verses.content).filter(models.Verses.verse==verse).first()
+    content = str(content)
+    strverse = ""
+    for i in range(len(content)):
+        if not i == 0 and not i == 1 and not i == (len(content)-3) and not i == (len(content)-2) and not i == (len(content)-1):
+            strverse += content[i]
+    if request.method == "POST":
+        entry = request.form.get("entry")
+        if not entry == strverse:
+            flash("The Verse Did Not Match, Please Try Again", category="error")
+        else:
+            id = oauth.convert_sql(str(db.session.query(models.Verses.id).filter(models.Verses.verse==verse).first()))
+            new_verse = models.Memorized(user_id=user.id, verse_id=id, time_memorized="now")
+            db.session.add(new_verse)
+            db.session.commit()
+            return redirect("/"), flash("You Completed The Verse", category="success")
+    return render_template("verse_breakdown.html", user=user, verse=verse, content=strverse)
 
 
 @views.route("/memorized", methods=["GET", "POST"])
